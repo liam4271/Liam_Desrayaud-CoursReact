@@ -4,15 +4,14 @@ import Button from '../component/Button';
 import ListItem from '../component/ListItem';
 import { createFakerUsers } from '../services/createFakeUsers';
 import styled from '@emotion/styled';
-import { User } from '../models/Users';
-// import Count from './component/Count';
 import { useEffect } from "react";
 import TextField from '../component/Textfield';
 import { Link } from 'react-router-dom';
 
+import { useUsers } from '../hooks/useUsers';
+
 const  ListUsers = () => {
-  const [users, setUser] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { users, loading, setUser, deleteUser, setLoading } = useUsers();
   const [count, setCount] = useState(0);
   const [search, setSearch] = useState('');
 
@@ -27,21 +26,16 @@ const  ListUsers = () => {
 
 
 
-  useEffect(() => {
-    console.log("no deps array");
-    if (count === 5) setLoading(false);
+
+  // useEffect(() => {
+
+  //     const nextUsers = createFakerUsers(10);
+  //     setUser(nextUsers);
+  //     setLoading(false);
+
+  //   console.log("empty deps array");
     
-  });
-
-  useEffect(() => {
-
-      const nextUsers = createFakerUsers(10);
-      setUser(nextUsers);
-      setLoading(false);
-
-    console.log("empty deps array");
-    
-  },[]);
+  // },[]);
 
   useEffect(() => {
     console.log("loading changed", {loading}); 
@@ -58,14 +52,9 @@ const  ListUsers = () => {
   // },[count]);
 
   const createdUsers = () =>{
-    setLoading(true);
-    
-    setTimeout(() => {
+    const nextUsers = createFakerUsers(count);
       setUser([...users, ...createFakerUsers(1)])
-      console.log("createdUsers");
-      setLoading(false);
-    }, 50)
-  
+
     
   }
 
@@ -73,11 +62,7 @@ const  ListUsers = () => {
 //     setCount((count) => count + 1)
 // }
 
-const deleteUser = (id: number) => {
-  const newUsers = users.filter((user) => user.id!== id);
-  setUser(newUsers);
-  
-};
+
 
   return (
     <>

@@ -5,15 +5,16 @@ import Button from './component/Button';
 import ListPost from './component/ListPost';
 import { createFakePost } from './services/createFakePosts';
 import styled from '@emotion/styled';
-import { Post } from './models/Posts';
+
 import { useEffect } from "react";
 import TextField from './component/Textfield';
 import { Link } from 'react-router-dom';
 
-const  App = () => {
-  const [posts, setPost] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
+import { usePosts } from './hooks/usePosts';
 
+
+const  App = () => {
+  const { posts, loading, setPost, setLoading } = usePosts();
   const [search, setSearch] = useState('');
 
 
@@ -25,7 +26,7 @@ const  App = () => {
 
 
 
-
+  
 
 
   useEffect(() => {
@@ -37,6 +38,8 @@ const  App = () => {
     console.log("empty deps array");
     
   },[]);
+
+
 
   useEffect(() => {
     console.log("loading changed", {loading}); 
